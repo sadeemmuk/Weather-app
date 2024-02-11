@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Weather website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="weather">
+  <div class="search-inf">
+    <input type="search" class="search-input" placeholder="Enter city name">
+    <button class="search-btn"><img src="weather-app-img/images/search.png"></button>
+  </div>
+  <p class="error">Incorrect value </p>
+  <div class="details">
+    <img src="weather-app-img/images/clouds.png" class="img-icon">
+    <h2 class="temp">22c</h2>
+    <h2 class="country">London</h2>
+    <div class="text">
+      <div class="col">
+        <img src="weather-app-img/images/humidity.png">
+        <div class="info">
+        <p class="humidity">53%</p>
+<p>Humidity</p>
+        </div>
+      </div>
+      <div class="col">
+        <img src="weather-app-img/images/wind.png">
+      <div class="info">
+        <p class="wind">5.66km/h</p>
+        <p>wind speed</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <script>
+const keyApi= "c5c587937c8e883bc4ec3916ee11b855";
+const UrlKey = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+const inputSrc = document.querySelector(".search-input");
+const btn = document.querySelector(".search-btn"); 
+var image = document.querySelector(".img-icon");
+var details = document.querySelector(".details");
+async function checkWeather (city){
+  const response = await fetch(UrlKey + city + `&appid=${keyApi}`)
+  .then(response => response.json())
+  .then((data) => {
+    document.querySelector(".country").innerHTML = data.name;
+document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "c";
+document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+document.querySelector(".wind").innerHTML = data.wind.speed + 'km/h';
+
+image.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+details.style.display = "block";
+  })
+}
+
+
+btn.addEventListener("click", function(){
+  checkWeather(inputSrc.value);
+
+  
+})
+
+
+
+  </script>
+</body>
+</html>
